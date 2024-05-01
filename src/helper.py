@@ -16,7 +16,6 @@ def seq_vec(sequence: str):
   """
   length = len(sequence)
   a = []
-
   for i in range(1, length):
     y = sequence[length-i:length]
     a.append(mass.calculate_mass(sequence=y, ion_type='y', charge=1))
