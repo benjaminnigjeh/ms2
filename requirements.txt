@@ -8,3 +8,4 @@ wget
 h5py
 tensorflow
 keras
+spectrum_utils
