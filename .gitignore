@@ -163,3 +163,4 @@ cython_debug/
 *.hdf5
 *.h5
 *.keras
+*.png

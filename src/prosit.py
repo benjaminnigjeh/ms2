@@ -86,7 +86,7 @@ y_test = np.vstack(df_test[OUTPUT_COLUMN])
 DIM_LATENT = 124
 DIM_EMBEDDING_IN = max(PROSIT_ALHABET.values()) + 1  # max value + zero for padding
 DIM_EMBEDDING_OUT = 32
-EPOCHS = 1
+EPOCHS = 20
 BATCH_SIZE = 256
 
 
@@ -124,7 +124,7 @@ def main():
     model.compile(optimizer='Adam', loss=masked_spectral_distance)
     history = model.fit(x=x_train, y=y_train, epochs=EPOCHS, batch_size=BATCH_SIZE,
                    validation_data=(x_validation, y_validation))
-    model.save('model_1Epoch.keras')
+    model.save('model_20Epoch.keras')
 
     plt.plot(range(EPOCHS), history.history['loss'], '-', color='r', label='Training loss')
     plt.plot(range(EPOCHS), history.history['val_loss'], '--', color='r', label='Validation loss')
@@ -136,9 +136,6 @@ def main():
 
     test_spectral_angle = model.evaluate(x_test, y_test)
     test_spectral_angle
-
-
-
 
 
 if __name__ == "__main__":
