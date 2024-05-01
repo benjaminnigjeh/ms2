@@ -5,6 +5,9 @@ setup(
     version="0.0.2",
     author="Ben Nigjeh",
     author_email="benjamin.nigjeh@gmail.com",
-    install_requires=["pyteomics"],
+    install_requires=["pyteomics", "matplotlib", "pandas", "numpy", "wget", "h5py", "tensorflow", "keras"],
     packages=find_packages()
 )
+
+
+

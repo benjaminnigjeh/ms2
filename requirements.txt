@@ -1,4 +1,10 @@
 -e .
 
 pyteomics
-
+matplotlib
+pandas
+numpy
+wget
+h5py
+tensorflow
+keras
