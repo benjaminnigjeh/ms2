@@ -11,14 +11,14 @@ import numpy as np
 from tensorflow.keras.layers import Input, Dense, GRU, Embedding, Multiply
 from tensorflow.keras.models import Model
 from tensorflow.keras import backend as k
-import keras.backend as k
+
 
 # Download the dataset
 url = 'https://figshare.com/ndownloader/files/12506534'
-# wget.download(url)
+#wget.download(url)
 
 # Read the downloaded data to a dataframe
-with h5.File('C:/Users/bnigjeh/PycharmProjects/20230504_test/holdout_hcd.hdf5', 'r') as f:
+with h5.File('D:/MS2/src/holdout_hcd.hdf5', 'r') as f:
   KEY_ARRAY = ["sequence_integer", "precursor_charge_onehot", "intensities_raw"]
   KEY_SCALAR = ["collision_energy_aligned_normed", "collision_energy"]
   df = pd.DataFrame({key: list(f[key][...]) for key in KEY_ARRAY})
@@ -86,7 +86,7 @@ y_test = np.vstack(df_test[OUTPUT_COLUMN])
 DIM_LATENT = 124
 DIM_EMBEDDING_IN = max(PROSIT_ALHABET.values()) + 1  # max value + zero for padding
 DIM_EMBEDDING_OUT = 32
-EPOCHS = 20
+EPOCHS = 1
 BATCH_SIZE = 256
 
 
@@ -105,12 +105,11 @@ x = Multiply()([x_s, x_z, x_e])
 out_intensities = Dense(y_train.shape[1])(x)
 
 model = Model([in_sequence, in_precursor_charge, in_collision_energy], out_intensities)
-model.summary()
+
 
 
 def masked_spectral_distance(true, pred):
   """ This is the loss function"""
-  import keras.backend as k
   epsilon = k.epsilon()
   pred_masked = ((true + 1) * pred) / (true + 1 + epsilon)
   true_masked = ((true + 1) * true) / (true + 1 + epsilon)
@@ -119,6 +118,31 @@ def masked_spectral_distance(true, pred):
   product = k.sum(pred_norm * true_norm, axis=1)
   arccos = tf.acos(product)
   return 2 * arccos / np.pi
+
+def main():
+  if True:
+    model.compile(optimizer='Adam', loss=masked_spectral_distance)
+    history = model.fit(x=x_train, y=y_train, epochs=EPOCHS, batch_size=BATCH_SIZE,
+                   validation_data=(x_validation, y_validation))
+    model.save('model_1Epoch.keras')
+
+    plt.plot(range(EPOCHS), history.history['loss'], '-', color='r', label='Training loss')
+    plt.plot(range(EPOCHS), history.history['val_loss'], '--', color='r', label='Validation loss')
+    plt.title(f'Training and validation loss across epochs')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.show()
+
+    test_spectral_angle = model.evaluate(x_test, y_test)
+    test_spectral_angle
+
+
+
+
+
+if __name__ == "__main__":
+    main()
 
 
 
