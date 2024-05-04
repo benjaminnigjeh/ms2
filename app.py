@@ -5,10 +5,11 @@ import numpy as np
 from src.plot import plot
 
 # Page title
-st.title('Genrative recurrent neural network')
+st.title('API access to Generative RNN:')
 
 # Text input for the image name
-sequence = st.text_input('Enter the peptide sequence:', )
+default_value = "MKWVTFISLLFLFSSAYSR"
+sequence = st.text_input('Enter the peptide sequence:', value=default_value )
 charge = st.number_input('Enter the peptide charge:', value=2, step=1, min_value=2, max_value=6)
 NCE = st.number_input('Enter the normalized collision energy:', value=0.20, step=0.01, min_value=0.20, max_value=0.30)
 sequence1 = str(sequence)
