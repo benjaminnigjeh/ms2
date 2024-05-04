@@ -10,7 +10,7 @@ from src.helper import *
 def plot(model_path: str, input_sequence: str, charge: int, NCE: float):
     """This function receives the path to generative model and information underlying peptide to generate spectra"""
 
-    peptide_title = input_sequence + "_" + str(charge) + "_" + str(NCE)
+    peptide_title = input_sequence + "_" + str(charge) + "_" + str(round(NCE, 2))
     peptide = input_sequence + "/" + str(charge)
     precursor = mass.calculate_mass(sequence=input_sequence, charge=charge)
     loaded_model = tf.keras.models.load_model(model_path, compile=False)

@@ -21,7 +21,7 @@ if sequence is not None:
 
 # Path to the folder containing the images
 folder_path = 'D:/repo/'
-file_name = sequence1 + "_" + str(charge1) + "_" + str(NCE1) + ".jpeg"
+file_name = sequence1 + "_" + str(charge1) + "_" + str(round(NCE1, 2)) + ".jpeg"
 image_path = folder_path + file_name
 
 if os.path.exists(image_path):
