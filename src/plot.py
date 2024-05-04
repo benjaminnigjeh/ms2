@@ -10,12 +10,18 @@ from src.helper import *
 def plot(model_path: str, input_sequence: str, charge: int, NCE: float):
     """This function receives the path to generative model and information underlying peptide to generate spectra"""
 
-    peptide = input_sequence + "/" + str(charge)
+    peptide = input_sequence + "_" + str(charge) + "_" + str(NCE)
     precursor = mass.calculate_mass(sequence=input_sequence, charge=charge)
     loaded_model = tf.keras.models.load_model(model_path, compile=False)
 
+    if charge==2: charge_vec = [0, 1, 0, 0, 0, 0]
+    if charge==3: charge_vec = [0, 0, 1, 0, 0, 0]
+    if charge==4: charge_vec = [0, 0, 0, 1, 0, 0]
+    if charge==5: charge_vec = [0, 0, 0, 0, 1, 0]
+    if charge==6: charge_vec = [0, 0, 0, 0, 0, 1]
 
-    input_instance = [np.array(seq_int(input_sequence)).reshape(1,-1), np.array([0, 1, 0, 0, 0, 0]).reshape(1,-1), np.array([NCE]).reshape(1,-1)]
+
+    input_instance = [np.array(seq_int(input_sequence)).reshape(1,-1), np.array(charge_vec).reshape(1,-1), np.array([NCE]).reshape(1,-1)]
     output_instance = loaded_model.predict(input_instance, batch_size=None, verbose='auto', 
                                         steps=None, callbacks=None)
 
@@ -32,7 +38,9 @@ def plot(model_path: str, input_sequence: str, charge: int, NCE: float):
     ax.set_title(peptide, fontdict={"fontsize": "xx-large"})
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)
-    return(plt.show())
+    plt.savefig("D:/repo/{}.jpeg".format(peptide), bbox_inches="tight", dpi=300, transparent=True)
+    plt.close()
+    return()
 
 
 

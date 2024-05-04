@@ -8,7 +8,7 @@ import h5py as h5
 from random import shuffle
 import tensorflow as tf
 import numpy as np
-from tensorflow.keras.layers import Input, Dense, GRU, Embedding, Multiply
+from tensorflow.keras.layers import Input, Dense, GRU, Embedding, Multiply, Attention, Reshape
 from tensorflow.keras.models import Model
 from tensorflow.keras import backend as k
 
@@ -98,6 +98,8 @@ in_collision_energy = Input(shape=[x_train[2].shape[1]], name="in_collision_ener
 
 x_s = Embedding(input_dim=DIM_EMBEDDING_IN, output_dim=DIM_EMBEDDING_OUT)(in_sequence)
 x_s = GRU(DIM_LATENT)(x_s)
+
+
 x_z = Dense(DIM_LATENT)(in_precursor_charge)
 x_e = Dense(DIM_LATENT)(in_collision_energy)
 
@@ -124,7 +126,7 @@ def main():
     model.compile(optimizer='Adam', loss=masked_spectral_distance)
     history = model.fit(x=x_train, y=y_train, epochs=EPOCHS, batch_size=BATCH_SIZE,
                    validation_data=(x_validation, y_validation))
-    model.save('model_20Epoch.keras')
+    model.save('model_20Epoch_att.keras')
 
     plt.plot(range(EPOCHS), history.history['loss'], '-', color='r', label='Training loss')
     plt.plot(range(EPOCHS), history.history['val_loss'], '--', color='r', label='Validation loss')
