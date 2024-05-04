@@ -36,7 +36,7 @@ def plot(model_path: str, input_sequence: str, charge: int, NCE: float):
     # Plot the spectrum.
     fig, ax = plt.subplots(figsize=(12, 6))
     sup.spectrum(spectrum, grid=False, ax=ax)
-    ax.set_title(peptide, fontdict={"fontsize": "xx-large"})
+    ax.set_title(peptide_title, fontdict={"fontsize": "xx-large"})
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)
     plt.savefig("D:/repo/{}.jpeg".format(peptide_title), bbox_inches="tight", dpi=300, transparent=True)
