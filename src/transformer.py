@@ -115,7 +115,7 @@ y_test = np.vstack(df_test[OUTPUT_COLUMN])
 DIM_LATENT = 124
 DIM_EMBEDDING_IN = max(PROSIT_ALHABET.values()) + 1  # max value + zero for padding
 DIM_EMBEDDING_OUT = 32
-EPOCHS = 20
+EPOCHS = 1
 BATCH_SIZE = 256
 
 # Build the model with input layers for sequence, precursor charge, and collision energy
@@ -158,7 +158,7 @@ def main():
     model.summary()
     history = model.fit(x=x_train, y=y_train, epochs=EPOCHS, batch_size=BATCH_SIZE,
                    validation_data=(x_validation, y_validation))
-    model.save('model_20Epoch_att.keras')
+    model.save('model_20Epoch_transformer.keras')
 
     plt.plot(range(EPOCHS), history.history['loss'], '-', color='r', label='Training loss')
     plt.plot(range(EPOCHS), history.history['val_loss'], '--', color='r', label='Validation loss')
