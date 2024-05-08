@@ -10,3 +10,4 @@ tensorflow
 keras
 spectrum_utils
 streamlit
+torch
