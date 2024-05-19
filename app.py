@@ -5,7 +5,7 @@ import numpy as np
 from src.plot import plot
 
 # Page title
-st.title('API access to Generative RNN:')
+st.title('API access to Generative RNN:streamlir r')
 
 # Text input for the image name
 default_value = "MKWVTFISLLFLFSSAYSR"
