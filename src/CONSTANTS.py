@@ -19,6 +19,6 @@ PROSIT_ALHABET = {
     "V": 18,
     "W": 19,
     "Y": 20,
-    "M": 21,
+    "M(ox)": 21,
 }
 PROSIT_INDEXED_ALPHABET = {i: c for c, i in PROSIT_ALHABET.items()}
