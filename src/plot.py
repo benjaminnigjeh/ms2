@@ -32,16 +32,18 @@ def plot(model_path: str, input_sequence: str, charge: int, NCE: float):
                                 np.ascontiguousarray(np.array(output_instance).reshape(-1)))
     spectrum = spectrum1.annotate_proforma(proforma_str= peptide, fragment_tol_mass= 10, 
                                         fragment_tol_mode="ppm", ion_types='by')
+    
 
     # Plot the spectrum.
     fig, ax = plt.subplots(figsize=(12, 6))
-    sup.spectrum(spectrum, grid=False, ax=ax)
-    ax.set_title(peptide_title, fontdict={"fontsize": "xx-large"})
+    a = sup.spectrum(spectrum, grid=False, ax=ax)
+
+    #ax.set_title(peptide_title, fontdict={"fontsize": "xx-large"})
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)
     plt.savefig("D:/repo/{}.jpeg".format(peptide_title), bbox_inches="tight", dpi=300, transparent=True)
     plt.close()
-    return()
+    return(list(output_instance))
 
 
 

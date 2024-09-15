@@ -25,6 +25,17 @@ with h5.File('D:/MS2/src/holdout_hcd.hdf5', 'r') as f:
   for key in KEY_SCALAR:
     df[key] = f[key][...]
 
+# increase the input peptide length to 130
+
+new_list = []
+
+for i in range(0, len(df['sequence_integer'])):
+    new_list.append(list(df['sequence_integer'][i]) + [0]*100)
+
+df['sequence_integer1'] = new_list
+
+df['sequence_integer'] = df['sequence_integer1']
+
 # Add convenience columns
 df['precursor_charge'] = df.precursor_charge_onehot.map(lambda a: a.argmax() + 1)
 df['sequence_maxquant'] = df.sequence_integer.map(lambda s: "".join(PROSIT_INDEXED_ALPHABET[i] for i in s if i != 0))
@@ -86,7 +97,7 @@ y_test = np.vstack(df_test[OUTPUT_COLUMN])
 DIM_LATENT = 124
 DIM_EMBEDDING_IN = max(PROSIT_ALHABET.values()) + 1  # max value + zero for padding
 DIM_EMBEDDING_OUT = 32
-EPOCHS = 20
+EPOCHS = 2
 BATCH_SIZE = 256
 
 
@@ -126,7 +137,7 @@ def main():
     model.compile(optimizer='Adam', loss=masked_spectral_distance)
     history = model.fit(x=x_train, y=y_train, epochs=EPOCHS, batch_size=BATCH_SIZE,
                    validation_data=(x_validation, y_validation))
-    model.save('model_20Epoch_att.keras')
+    model.save('model_20Epoch_protein.keras')
 
     plt.plot(range(EPOCHS), history.history['loss'], '-', color='r', label='Training loss')
     plt.plot(range(EPOCHS), history.history['val_loss'], '--', color='r', label='Validation loss')
@@ -144,4 +155,4 @@ if __name__ == "__main__":
     main()
 
 
-
+model.predict()
