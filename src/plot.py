@@ -30,7 +30,7 @@ def plot(model_path: str, input_sequence: str, charge: int, NCE: float):
     spectrum1 = sus.MsmsSpectrum('test', precursor, charge, 
                                 np.ascontiguousarray(np.array(seq_vec(input_sequence))), 
                                 np.ascontiguousarray(np.array(output_instance).reshape(-1)))
-    spectrum = spectrum1.annotate_proforma(proforma_str= peptide, fragment_tol_mass= 10, 
+    spectrum = spectrum1.annotate_proforma(proforma_str= peptide, fragment_tol_mass= 0.1, 
                                         fragment_tol_mode="ppm", ion_types='by')
     
 
